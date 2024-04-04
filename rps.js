@@ -1,3 +1,6 @@
+let playerScore = 0;
+let computerScore = 0;
+
 function getComputerChoice() {
   let choices = ['rock', 'paper', 'scissors'];
   return choices[Math.floor(Math.random() * choices.length)];
@@ -20,35 +23,30 @@ function playRound(playerSelection, computerSelection) {
   }
 }
 
-function game() {
-  let playerScore = 0;
-  let computerScore = 0;
-  for (i = 0; i < 5; i++) {
-    let computerChoice = getComputerChoice();
-    let playerChoice = prompt('Enter your choice: ').toLowerCase();
-    let result = playRound(playerChoice, computerChoice);
+function play(playerSelection) {
+  if (playerScore < 3 && computerScore < 3) {
+    let computerSelection = getComputerChoice();
+    let outputElement = document.getElementById('result');
+    let result = playRound(playerSelection, computerSelection);
 
     if (result === 'win') {
-      playerScore++;
-      console.log(`You win this round! Score is Player: ${playerScore}, Computer: ${computerScore}`);
+      outputElement.textContent = `You win this round! Computer chose ${computerSelection}`;
     } else if (result === 'lose') {
-      computerScore++;
-      console.log(`You lose this round! Score is Player: ${playerScore}, Computer: ${computerScore}`);
+      outputElement.textContent = `You lose this round! Computer chose ${computerSelection}`;
     } else if (result === 'tie') {
-      console.log(`It's a tie! Score is Player: ${playerScore}, Computer: ${computerScore}`);
+      outputElement.textContent = `It's a tie! Computer chose ${computerSelection}`;
     } else {
-      console.log('Invalid choice. Please select rock, paper, or scissors.');
-      i--;
+      outputElement.textContent = 'Invalid choice. Please select rock, paper, or scissors.';
+    }
+
+    if (playerScore === 3 || computerScore === 3) {
+      if (playerScore === 3) {
+        outputElement.textContent = 'You win the game!';
+      } else {
+        outputElement.textContent = 'You lose the game!';
+      }
+      playerScore = 0;
+      computerScore = 0;
     }
   }
-
-  if (playerScore > computerScore) {
-    console.log(`You win the game! Final Score: Player: ${playerScore}, Computer: ${computerScore}`);
-  } else if (playerScore < computerScore) {
-    console.log(`You lose the game! Final Score: Player: ${playerScore}, Computer: ${computerScore}`);
-  } else {
-    console.log(`The game is a tie! Final Score: Player: ${playerScore}, Computer: ${computerScore}`);
-  }
 }
-
-game();
